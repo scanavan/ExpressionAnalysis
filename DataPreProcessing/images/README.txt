@@ -1,0 +1,1 @@
+NOTE: We can't store too many images in this directory. Mainly for testing purposes. Big data will be handled on external drive.
