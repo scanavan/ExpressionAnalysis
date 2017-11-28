@@ -2,13 +2,16 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
+#include <windows.h>
+#include <string>
+
 #include <iostream>
 #include <stdio.h>
 
 using namespace std;
 using namespace cv;
 
-void detectAndDisplay(Mat frame);
+void detectAndDisplay(Mat frame, int x, int y, string folderName, string imgName);
 
 string face_cascade_name = "C:/Users/asthasharma017/Development/FacialExpressionRecognitionProjectWorkspace/ThirdParty/opencv/sources/samples/winrt_universal/VideoCaptureXAML/video_capture_xaml/video_capture_xaml.Windows/Assets/haarcascade_frontalface_alt.xml";
 CascadeClassifier face_cascade;
@@ -23,28 +26,64 @@ int main(void)
 		return (-1);
 	}
 
-	Mat frame = imread("images/000.jpg");
+	WIN32_FIND_DATA FindFileData, file_data;
+	HANDLE hFind, dir;
+	string sPath;
+	vector<string> MyVect;
+	sPath.assign("images\\F005\\*");
+	hFind = FindFirstFile(sPath.data(), &FindFileData);
+	do
+	{
+		if (FindFileData.dwFileAttributes == 16)
+		{
+			MyVect.push_back(FindFileData.cFileName);
+		}
+	} while (FindNextFile(hFind, &FindFileData));
+	FindClose(hFind);
+	for (int i = 0; i < MyVect.size(); i++) {
+		cout << MyVect.at(i) << endl;
 
-	// Apply the classifier to the frame
-	if (!frame.empty()) {
-		detectAndDisplay(frame);
-	}
-	else {
-		printf(" --(!) No captured frame -- Break!");
-		//break;
+		
+
+		std::string pattern("images\\F005\\" + MyVect.at(i));
+		pattern.append("\\*");
+		WIN32_FIND_DATA data;
+		HANDLE hFind;
+		if ((hFind = FindFirstFile(pattern.c_str(), &data)) != INVALID_HANDLE_VALUE) {
+			do {
+				cout << data.cFileName << endl;
+
+				Mat frame = imread("images/F005/" + MyVect.at(i) + "/" + data.cFileName);
+				cout << "images/F005/" + MyVect.at(i) + "/" + data.cFileName << endl;
+
+				if (!frame.empty()) {
+					detectAndDisplay(frame, 48, 48, MyVect.at(i), data.cFileName);
+				}
+				else {
+					printf(" --(!) No captured frame -- Break!");
+				}
+
+				int c = waitKey(10);
+
+				if (27 == char(c)) {
+					//break;
+				}
+
+
+			} while (FindNextFile(hFind, &data) != 0);
+			FindClose(hFind);
+		}
+
+
+
 	}
 
-	int c = waitKey(10);
-
-	if (27 == char(c)) {
-		//break;
-	}
+	
 
 	return 0;
 }
 
-// Function detectAndDisplay
-void detectAndDisplay(Mat frame)
+void detectAndDisplay(Mat frame, int x, int y, string folderName, string imgName)
 {
 	std::vector<Rect> faces;
 	Mat frame_gray;
@@ -57,7 +96,6 @@ void detectAndDisplay(Mat frame)
 	cvtColor(frame, frame_gray, COLOR_BGR2GRAY);
 	equalizeHist(frame_gray, frame_gray);
 
-	// Detect faces
 	face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CASCADE_SCALE_IMAGE, Size(48, 48));
 
 	// Set Region of Interest
@@ -97,17 +135,16 @@ void detectAndDisplay(Mat frame)
 		}
 
 		crop = frame(roi_b);
-		resize(crop, res, Size(128, 128), 0, 0, INTER_LINEAR); // This will be needed later while saving images
+		resize(crop, res, Size(128, 128), 0, 0, INTER_LINEAR); 
 		cvtColor(crop, gray, CV_BGR2GRAY); // Convert cropped image to Grayscale
 
-										   // Form a filename
 		filename = "";
 		stringstream ssfn;
 		ssfn << filenumber << ".jpg";
 		filename = ssfn.str();
 		filenumber++;
 
-		imwrite(filename, gray);
+		//imwrite(filename, gray);
 
 		Point pt1(faces[ic].x, faces[ic].y); // Display detected faces on main window
 		Point pt2((faces[ic].x + faces[ic].height), (faces[ic].y + faces[ic].width));
@@ -123,8 +160,9 @@ void detectAndDisplay(Mat frame)
 
 	if (!crop.empty())
 	{
-		imshow("detected", crop);
-		imwrite("images/cropped.jpg", crop);
+		//imshow("detected", crop);
+		resize(crop, crop, Size(x, y));
+		imwrite("images/cropped/F005_" + folderName + "_" + imgName + ".jpg", crop);
 		cv::waitKey();
 	}
 	else
