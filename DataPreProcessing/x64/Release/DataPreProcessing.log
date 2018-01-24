@@ -1,4 +1,0 @@
-﻿  Building Custom Rule C:/Users/asthasharma017/Development/FacialExpressionRecognitionProjectWorkspace/ExpressionAnalysis/DataPreProcessing/CmakeLists.txt
-  CMake does not need to re-run because C:/Users/asthasharma017/Development/FacialExpressionRecognitionProjectWorkspace/ExpressionAnalysis/DataPreProcessing/CMakeFiles/generate.stamp is up-to-date.
-  main.cpp
-x64\Release\main.obj : fatal error LNK1112: module machine type 'x64' conflicts with target machine type 'X86'
