@@ -6,19 +6,17 @@ SET(CMAKE_CONFIGURATION_TYPES Debug Release CACHE STRING "" FORCE)
 
 #set directory variables
 SET(SOURCE_DIR "source")
-SET(INCLUDE_DIR "include")
-SET(OpenCV_LINK_DIRECTORIES "D:/ThirdParty/OpenCV/build/x64/vc14/lib")
-SET(OpenCV_INCLUDE_DIRS "D:/ThirdParty/Opencv/build/include")
+SET(OpenCV_LINK_DIRECTORIES "C:/Users/asthasharma017/Development/FacialExpressionRecognitionProjectWorkspace/ThirdParty/opencv/build/x64/vc14/lib")
+SET(OpenCV_INCLUDE_DIRS "C:/Users/asthasharma017/Development/FacialExpressionRecognitionProjectWorkspace/ThirdParty/opencv/build/include")
 
 #get lists of files
 FILE(GLOB SOURCE_FILES ${SOURCE_DIR}/*.cpp)
-FILE(GLOB HEADER_FILES ${INCLUDE_DIR}/*.h)
 
 #make sure we include opencv include dir
-INCLUDE_DIRECTORIES(${INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
 #include opencv lib directory
 LINK_DIRECTORIES(${OpenCV_LINK_DIRECTORIES})
 #create exe
-ADD_EXECUTABLE(DataPreProcessing ${SOURCE_FILES} ${HEADER_FILES})
+ADD_EXECUTABLE(DataPreProcessing ${SOURCE_FILES})
 #link libs
 TARGET_LINK_LIBRARIES(DataPreProcessing opencv_world330.lib)
