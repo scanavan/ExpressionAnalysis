@@ -10,7 +10,7 @@
 
 CASC_PATH = './haarcascade_files/haarcascade_frontalface_default.xml'
 SIZE_FACE = 48
-EMOTIONS = ['happy', 'embarassed', 'fear', 'pain', 'disgust']
+EMOTIONS = ['angry', 'disgusted', 'fearful', 'happy', 'sad', 'surprised', 'neutral']
 SAVE_DIRECTORY = './data/cropped/'
 SAVE_MODEL_FILENAME = 'USF_TEST_MODEL_1Epoch'
 SAVE_DATASET_IMAGES_FILENAME = 'data_train.npy'

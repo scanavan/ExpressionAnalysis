@@ -37,7 +37,7 @@ class EmotionRecognition:
       loss = 'categorical_crossentropy')
     self.model = tflearn.DNN(
       self.network,
-      checkpoint_path = SAVE_DIRECTORY + '/emotion_recognition',
+      checkpoint_path = SAVE_DIRECTORY + 'emotion_recognition',
       max_checkpoints = 1,
       tensorboard_verbose = 2
     )

@@ -15,8 +15,8 @@ class DatasetLoader(object):
     self._labels_test = np.load(join(SAVE_DIRECTORY, SAVE_DATASET_LABELS_TEST_FILENAME))
     self._images      = self._images.reshape([-1, SIZE_FACE, SIZE_FACE, 1])
     self._images_test = self._images.reshape([-1, SIZE_FACE, SIZE_FACE, 1])
-    self._labels      = self._labels.reshape([-1, len(EMOTIONS)])
-    self._labels_test = self._labels.reshape([-1, len(EMOTIONS)])
+    #self._labels      = self._labels.reshape([-1, len(EMOTIONS)])
+    #self._labels_test = self._labels.reshape([-1, len(EMOTIONS)])
 
   @property
   def images(self):
